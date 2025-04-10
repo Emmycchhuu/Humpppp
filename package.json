@@ -15,8 +15,8 @@
     "axios": "latest"
   },
   "devDependencies": {
-    "tailwindcss": "latest",
-    "postcss": "latest",
+    "tailwindcss": "^3.4.1",
     "autoprefixer": "latest"
+    }
   }
 }
