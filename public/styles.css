@@ -6,15 +6,22 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #1a1a1a;
+  font-family: 'Courier New', monospace;
+  background-color: #0d0d0d;
   color: #ffffff;
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Neon Flicker Animation */
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.6; }
 }
 
 /* Navigation */
 nav {
-  background-color: #2d2d2d;
+  background-color: #1a1a1a;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -22,29 +29,36 @@ nav {
   position: sticky;
   top: 0;
   z-index: 10;
+  border-bottom: 2px solid #ff00ff;
+  box-shadow: 0 0 10px #ff00ff;
 }
 
 nav h1 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff;
+  animation: flicker 1.5s infinite;
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 nav a {
-  color: #ffffff;
+  color: #ff00ff;
   text-decoration: none;
-  transition: color 0.3s;
+  font-weight: bold;
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
 nav a:hover {
-  color: #60a5fa;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
 }
 
-/* Container for Content */
+/* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -52,203 +66,73 @@ nav a:hover {
 }
 
 /* Home Page */
-.home {
+.home h1 {
+  font-size: 2.5rem;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+  animation: flicker 2s infinite;
   text-align: center;
 }
 
-.home h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
 .home p {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #00ffff;
+  margin: 1rem 0;
 }
 
 .home .disclaimer {
-  color: #ef4444;
-  font-weight: bold;
-}
-
-.home button {
-  background-color: #3b82f6;
-  color: #ffffff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.home button:hover {
-  background-color: #2563eb;
+  color: #ff0066;
+  text-shadow: 0 0 5px #ff0066;
 }
 
 /* Flash Page */
-.flash {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.flash h1 {
+  font-size: 2.5rem;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+  animation: flicker 2s infinite;
 }
 
 .flash input,
 .flash select {
   width: 100%;
   padding: 0.75rem;
-  background-color: #333333;
-  color: #ffffff;
-  border: 1px solid #555555;
+  background-color: #1a1a1a;
+  color: #00ffff;
+  border: 2px solid #ff00ff;
   border-radius: 5px;
   font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.3s;
 }
 
-.flash button {
-  background-color: #3b82f6;
-  color: #ffffff;
+.flash input:focus,
+.flash select:focus {
+  outline: none;
+  box-shadow: 0 0 10px #ff00ff;
+}
+
+.flash button,
+.home button {
+  background-color: #ff00ff;
+  color: #0d0d0d;
   border: none;
-  padding: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  text-shadow: 0 0 5px #0d0d0d;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.flash button:hover {
-  background-color: #2563eb;
+.flash button:hover,
+.home button:hover {
+  background-color: #00ffff;
+  transform: scale(1.05);
 }
 
-/* Wallet Modal */
+/* Modal */
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal  {
-  background-color: #2d2d2d;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-}
-
-.modal .wallet-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.modal button {
-  width: 100%;
-  background-color: #444444;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.modal button:hover {
-  background-color: #555555;
-}
-
-.modal .loading {
-  text-align: center;
-}
-
-.modal .spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #3b82f6;
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.modal input {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  background-color: #333333;
-  border: 1px solid #555555;
-  border-radius: 5px;
-  color: #ffffff;
-}
-
-/* Live Transactions */
-.transactions {
-  margin-top: 2rem;
-}
-
-.transactions h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.transactions ul {
-  list-style: none;
-}
-
-.transactions li {
-  background-color: #333333;
-  padding: 0.75rem;
-  border-radius: 5px;
-  margin-bottom: 0.5rem;
-}
-
-/* Donate Page */
-.donate h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.donate p {
-  margin-bottom: 1rem;
-}
-
-.donate .address {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.donate img {
-  width: 24px;
-  height: 24px;
-}
-
-.donate button {
-  background-color: #444444;
-  color: #ffffff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.donate button:hover {
-  background-color: #555555;
-}
-
-/* Loading Animation */
-.loading {
   position: fixed;
   top: 0;
   left: 0;
@@ -258,14 +142,165 @@ nav a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background-color: #1a1a1a;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  border: 2px solid #00ffff;
+  box-shadow: 0 0 20px #00ffff;
+}
+
+.modal-content h2 {
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+  animation: flicker 1.8s infinite;
+}
+
+.wallet-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.wallet-options button {
+  background-color: #333333;
+  color: #00ffff;
+  padding: 0.5rem;
+  border: 2px solid #ff00ff;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.wallet-options button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #ff00ff;
+}
+
+.wallet-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.modal .loading p {
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+.modal .spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ff00ff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.modal .error-text {
+  color: #ff0066;
+  text-shadow: 0 0 5px #ff0066;
+  margin-bottom: 1rem;
+}
+
+.modal input {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #1a1a1a;
+  color: #00ffff;
+  border: 2px solid #ff00ff;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.modal .close-btn {
+  background-color: #ff0066;
+  color: #ffffff;
+  margin-top: 1rem;
+}
+
+/* Transactions */
+.transactions h2 {
+  font-size: 1.8rem;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+  animation: flicker 2.2s infinite;
+}
+
+.transactions ul {
+  list-style: none;
+}
+
+.transactions li {
+  background-color: #1a1a1a;
+  padding: 0.75rem;
+  border: 1px solid #ff00ff;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  color: #00ffff;
+}
+
+/* Donate Page */
+.donate h1 {
+  font-size: 2.5rem;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+  animation: flicker 2s infinite;
+}
+
+.donate p {
+  color: #00ffff;
+  margin-bottom: 1rem;
+}
+
+.donate .address {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: #00ffff;
+}
+
+.donate img {
+  width: 24px;
+  height: 24px;
+}
+
+.donate button {
+  background-color: #ff00ff;
+  color: #0d0d0d;
+  padding: 0.5rem 1rem;
+}
+
+/* Loading */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loading .spinner {
-  width: 60px;
-  height: 60px;
-  border: 6px solid #3b82f6;
+  width: 70px;
+  height: 70px;
+  border: 6px solid #00ffff;
   border-top-color: transparent;
-  border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
@@ -284,14 +319,10 @@ nav a:hover {
   .home h1,
   .flash h1,
   .donate h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
-  .modal {
-    padding: 1rem;
-  }
-
-  .modal .wallet-options {
+  .wallet-options {
     grid-template-columns: 1fr;
   }
 }
@@ -301,10 +332,15 @@ nav a:hover {
     padding: 1rem;
   }
 
-  .home button,
   .flash button,
+  .home button,
   .modal button,
   .donate button {
     width: 100%;
+    padding: 0.75rem;
   }
-}
+
+  .modal-content {
+    padding: 1rem;
+  }
+  }
