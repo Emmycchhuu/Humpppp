@@ -19,6 +19,14 @@ body {
   20%, 24%, 55% { opacity: 0.6; }
 }
 
+/* Fade In/Out Animation for Transactions */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
 /* Navigation */
 nav {
   background-color: #1a1a1a;
@@ -188,6 +196,8 @@ nav a:hover {
 .wallet-icon {
   width: 24px;
   height: 24px;
+  vertical-align: middle;
+  margin-right: 0.5rem;
 }
 
 .modal .loading p {
@@ -242,13 +252,14 @@ nav a:hover {
   list-style: none;
 }
 
-.transactions li {
+.transactions .transaction-item {
   background-color: #1a1a1a;
   padding: 0.75rem;
   border: 1px solid #ff00ff;
   border-radius: 5px;
   margin-bottom: 0.5rem;
   color: #00ffff;
+  animation: fadeInOut 4s infinite;
 }
 
 /* Donate Page */
