@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "postinstall": "npx tailwindcss init -p"
+    "start": "next start"
   },
   "dependencies": {
     "next": "latest",
