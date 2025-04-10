@@ -1,0 +1,23 @@
+{
+  "name": "humper-flasher",
+  "version": "1.0.0",
+  "description": "A crypto wallet flasher tool built with Next.js and Tailwind CSS",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "postinstall": "npx tailwindcss init -p"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "axios": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "latest",
+    "postcss": "latest",
+    "autoprefixer": "latest"
+  }
+}
